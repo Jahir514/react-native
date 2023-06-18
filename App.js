@@ -9,6 +9,9 @@ export default function App() {
   const startAddGoalHandler = () => {
     setModalIsVisible(true);
   };
+  const endAddGoalHandler = () => {
+    setModalIsVisible(false);
+  };
   const goalAddHandler = (inputText) => {
     setGoalLists((prevInputText) => [
       ...prevInputText,
@@ -23,34 +26,38 @@ export default function App() {
   };
 
   return (
-    <View style={styles.appContainer}>
-      <Button
-        title='Add New Goal'
-        color='#5e08cc'
-        onPress={startAddGoalHandler}
-      />
-      <GoalInput
-        goalAddHandler={goalAddHandler}
-        modalVisible={modalIsVisible}
-      />
-      <View style={styles.goalsContainer}>
-        <FlatList
-          data={goalLists}
-          renderItem={(itemData) => {
-            return (
-              <GoalItem
-                itemData={itemData}
-                deleteGoalHandler={deleteGoalHandler}
-              />
-            );
-          }}
-          alwaysBounceHorizontal={false}
-          keyExtractor={(item, index) => {
-            return item.id;
-          }}
+    <>
+      <StatusBar style='light' />
+      <View style={styles.appContainer}>
+        <Button
+          title='Add New Goal'
+          color='#5e08cc'
+          onPress={startAddGoalHandler}
         />
+        <GoalInput
+          goalAddHandler={goalAddHandler}
+          goalCancelHandler={endAddGoalHandler}
+          modalVisible={modalIsVisible}
+        />
+        <View style={styles.goalsContainer}>
+          <FlatList
+            data={goalLists}
+            renderItem={(itemData) => {
+              return (
+                <GoalItem
+                  itemData={itemData}
+                  deleteGoalHandler={deleteGoalHandler}
+                />
+              );
+            }}
+            alwaysBounceHorizontal={false}
+            keyExtractor={(item, index) => {
+              return item.id;
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 

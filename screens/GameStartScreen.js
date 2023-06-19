@@ -1,15 +1,35 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet, Alert } from 'react-native'
 import PrimaryButton from '../components/buttons/PrimaryButtons'
-const GameStartScreen = () => {
+import { useState } from 'react'
+const GameStartScreen = ({ pickedNumberHandler }) => {
+    const [enteredNumber, setEnteredNumber] = useState('')
+
+    const handleTextInput = (value) => {
+        setEnteredNumber(value)
+    }
+    const resetTextInput = () => {
+        setEnteredNumber('')
+    }
+    const confirmInputHandler = () => {
+        const confirmNumber = parseInt(enteredNumber)
+
+        if (isNaN(confirmNumber) || confirmNumber <= 0 || confirmNumber > 99) {
+            Alert.alert('Invalid Number!', 'Number has to be a number between 1 and 99.', [{ text: 'okay', style: 'default', onPress: resetTextInput }])
+            return
+        } else {
+            pickedNumberHandler(confirmNumber)
+        }
+
+    }
     return (
         <View style={styles.inputContainer}>
-            <TextInput style={styles.textInput} maxLength={2} keyboardType='number-pad' autoCorrect={false} autoCapitalize='none' />
+            <TextInput style={styles.textInput} maxLength={2} keyboardType='number-pad' autoCorrect={false} autoCapitalize='none' onChangeText={handleTextInput} value={enteredNumber} />
             <View style={styles.buttonsContainer}>
                 <View style={styles.button}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton buttonHandlerFunction={resetTextInput}>Reset</PrimaryButton>
                 </View>
                 <View style={styles.button}>
-                    <PrimaryButton>Confirm</PrimaryButton>
+                    <PrimaryButton buttonHandlerFunction={confirmInputHandler}>Confirm</PrimaryButton>
                 </View>
             </View>
 
@@ -21,7 +41,7 @@ export default GameStartScreen
 
 const styles = StyleSheet.create({
     inputContainer: {
-        backgroundColor: '#4e0329',
+        backgroundColor: '#3b021f',
         marginTop: 100,
         marginHorizontal: 24,
         padding: 16,

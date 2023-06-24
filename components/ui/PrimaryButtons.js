@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingHorizontal: 10
     },
     iOSpressed: {
         opacity: 0.75
